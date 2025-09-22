@@ -68,7 +68,27 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    announcements: Announcement;
+    events: Event;
+    gallery: Gallery;
+    admissions: Admission;
+    pta: Pta;
+    disclosure: Disclosure;
+    'pta-group-photo': PtaGroupPhoto;
+    management: Management;
+    academics: Academic;
+    nonacademics: Nonacademic;
+    labs: Lab;
+    institutions: Institution;
+    'bus-tables': BusTable;
+    'executive-committee': ExecutiveCommittee;
+    objectives: Objective;
+    mission: Mission;
+    contacts: Contact;
     media: Media;
+    leaders: Leader;
+    exports: Export;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -76,13 +96,33 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    announcements: AnnouncementsSelect<false> | AnnouncementsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    gallery: GallerySelect<false> | GallerySelect<true>;
+    admissions: AdmissionsSelect<false> | AdmissionsSelect<true>;
+    pta: PtaSelect<false> | PtaSelect<true>;
+    disclosure: DisclosureSelect<false> | DisclosureSelect<true>;
+    'pta-group-photo': PtaGroupPhotoSelect<false> | PtaGroupPhotoSelect<true>;
+    management: ManagementSelect<false> | ManagementSelect<true>;
+    academics: AcademicsSelect<false> | AcademicsSelect<true>;
+    nonacademics: NonacademicsSelect<false> | NonacademicsSelect<true>;
+    labs: LabsSelect<false> | LabsSelect<true>;
+    institutions: InstitutionsSelect<false> | InstitutionsSelect<true>;
+    'bus-tables': BusTablesSelect<false> | BusTablesSelect<true>;
+    'executive-committee': ExecutiveCommitteeSelect<false> | ExecutiveCommitteeSelect<true>;
+    objectives: ObjectivesSelect<false> | ObjectivesSelect<true>;
+    mission: MissionSelect<false> | MissionSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    leaders: LeadersSelect<false> | LeadersSelect<true>;
+    exports: ExportsSelect<false> | ExportsSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -91,7 +131,13 @@ export interface Config {
     collection: 'users';
   };
   jobs: {
-    tasks: unknown;
+    tasks: {
+      createCollectionExport: TaskCreateCollectionExport;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
     workflows: unknown;
   };
 }
@@ -118,7 +164,8 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
+  name?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -139,11 +186,36 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements".
+ */
+export interface Announcement {
+  id: number;
+  title: string;
+  content: string;
+  publishDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  content: string;
+  publishDate?: string | null;
+  images?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
-  alt: string;
+  id: number;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -158,23 +230,615 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery".
+ */
+export interface Gallery {
+  id: number;
+  title: string;
+  type: 'photo' | 'video';
+  media: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admissions".
+ */
+export interface Admission {
+  id: number;
+  studentName: string;
+  classAdmission: string;
+  gender: 'male' | 'female' | 'other';
+  dateOfBirth: string;
+  ageOn31stMay?: number | null;
+  email: string;
+  presentAddress?: string | null;
+  permanentAddress?: string | null;
+  fatherName?: string | null;
+  motherName?: string | null;
+  contactNo?: string | null;
+  schoolPreviouslyAttended?: string | null;
+  specialRequests?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pta".
+ */
+export interface Pta {
+  id: number;
+  name: string;
+  role:
+    | 'president-pta'
+    | 'chairman-foundation'
+    | 'secretary-foundation'
+    | 'secretary-pta'
+    | 'principal'
+    | 'vice-principal'
+    | 'headmistress'
+    | 'teacher'
+    | 'member';
+  /**
+   * Check if this member is part of the executive committee
+   */
+  isExecutive?: boolean | null;
+  /**
+   * Phone number (optional)
+   */
+  phone?: string | null;
+  /**
+   * Display order (lower numbers appear first)
+   */
+  order: number;
+  /**
+   * Academic year for this PTA committee (e.g., 2024-25)
+   */
+  academicYear: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disclosure".
+ */
+export interface Disclosure {
+  id: number;
+  fileName: string;
+  description?: string | null;
+  document: number | Media;
+  /**
+   * Show this document on the website
+   */
+  isActive?: boolean | null;
+  /**
+   * Lower numbers appear first
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pta-group-photo".
+ */
+export interface PtaGroupPhoto {
+  id: number;
+  title: string;
+  image: number | Media;
+  /**
+   * Academic year for this group photo
+   */
+  academicYear: string;
+  /**
+   * Check if this is the current active group photo to display
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "management".
+ */
+export interface Management {
+  id: number;
+  name: string;
+  designation: 'chairman' | 'secretary' | 'joint-secretary' | 'treasurer';
+  /**
+   * Display order (1-4)
+   */
+  order: number;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage academic facilities and labs showcased on the website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "academics".
+ */
+export interface Academic {
+  id: number;
+  title: string;
+  /**
+   * Upload an image representing this academic facility
+   */
+  image: number | Media;
+  description: string;
+  /**
+   * Control the order in which facilities appear (lower numbers appear first)
+   */
+  order?: number | null;
+  /**
+   * Uncheck to hide this facility from the website
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nonacademics".
+ */
+export interface Nonacademic {
+  id: number;
+  /**
+   * The title of the non-academic activity (e.g., Sports & Games, Music, etc.)
+   */
+  title: string;
+  /**
+   * Detailed description of the activity. This will be shown when the section is expanded.
+   */
+  description?: string | null;
+  /**
+   * Whether this activity should be displayed on the website.
+   */
+  isActive?: boolean | null;
+  /**
+   * Order in which this activity appears on the page (lower numbers appear first).
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage lab facilities and labs showcased on the website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labs".
+ */
+export interface Lab {
+  id: number;
+  title: string;
+  /**
+   * Upload an image representing this Lab facility
+   */
+  image: number | Media;
+  description: string;
+  /**
+   * Control the order in which Labs appear (lower numbers appear first)
+   */
+  order?: number | null;
+  /**
+   * Uncheck to hide this facility from the website
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage partner institutions and organizations
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions".
+ */
+export interface Institution {
+  id: number;
+  name: string;
+  image: number | Media;
+  description: string;
+  website?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage college bus schedules and routes
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bus-tables".
+ */
+export interface BusTable {
+  id: number;
+  /**
+   * e.g. 'Bus No.1 (2024-25)' or 'Route A - City Center'
+   */
+  title: string;
+  /**
+   * Optional description of the bus route
+   */
+  routeDescription?: string | null;
+  /**
+   * Whether this bus route is currently active
+   */
+  isActive?: boolean | null;
+  /**
+   * Bus stops with timings and fare information
+   */
+  stops: {
+    /**
+     * Name of the bus stop location
+     */
+    stop: string;
+    /**
+     * Morning departure time (e.g. '7:30 AM')
+     */
+    morning?: string | null;
+    /**
+     * Evening departure time (e.g. '5:30 PM')
+     */
+    evening?: string | null;
+    /**
+     * Fare amount in rupees
+     */
+    amount?: number | null;
+    /**
+     * Optional notes for this stop (e.g. 'Saturday only')
+     */
+    notes?: string | null;
+    id?: string | null;
+  }[];
+  /**
+   * Academic year this schedule applies to (e.g. '2024-25')
+   */
+  academicYear?: string | null;
+  /**
+   * Date from which this schedule is effective
+   */
+  effectiveFrom?: string | null;
+  /**
+   * Date until which this schedule is valid
+   */
+  effectiveTo?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "executive-committee".
+ */
+export interface ExecutiveCommittee {
+  id: number;
+  name: string;
+  title: string;
+  /**
+   * Display order
+   */
+  order: number;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "objectives".
+ */
+export interface Objective {
+  id: number;
+  /**
+   * The main heading for the objectives section
+   */
+  title: string;
+  /**
+   * The subtitle text below the main heading
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the objectives section
+   */
+  image: number | Media;
+  /**
+   * Add multiple paragraphs of content for the objectives section
+   */
+  content?:
+    | {
+        /**
+         * Add a paragraph of content
+         */
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mission".
+ */
+export interface Mission {
+  id: number;
+  /**
+   * The main heading for the Mission & Vission section
+   */
+  title: string;
+  /**
+   * The subtitle text below the main heading
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the section
+   */
+  image: number | Media;
+  /**
+   * Add multiple paragraphs of content for the section
+   */
+  content?:
+    | {
+        /**
+         * Add a paragraph of content
+         */
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  studentName: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leaders".
+ */
+export interface Leader {
+  id: number;
+  name: string;
+  message: string;
+  images?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exports".
+ */
+export interface Export {
+  id: number;
+  name?: string | null;
+  format?: ('csv' | 'json') | null;
+  limit?: number | null;
+  page?: number | null;
+  sort?: string | null;
+  sortOrder?: ('asc' | 'desc') | null;
+  drafts?: ('yes' | 'no') | null;
+  selectionToUse?: ('currentSelection' | 'currentFilters' | 'all') | null;
+  fields?: string[] | null;
+  collectionSlug: string;
+  where?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: number;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'createCollectionExport';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  taskSlug?: ('inline' | 'createCollectionExport') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'announcements';
+        value: number | Announcement;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'gallery';
+        value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'admissions';
+        value: number | Admission;
+      } | null)
+    | ({
+        relationTo: 'pta';
+        value: number | Pta;
+      } | null)
+    | ({
+        relationTo: 'disclosure';
+        value: number | Disclosure;
+      } | null)
+    | ({
+        relationTo: 'pta-group-photo';
+        value: number | PtaGroupPhoto;
+      } | null)
+    | ({
+        relationTo: 'management';
+        value: number | Management;
+      } | null)
+    | ({
+        relationTo: 'academics';
+        value: number | Academic;
+      } | null)
+    | ({
+        relationTo: 'nonacademics';
+        value: number | Nonacademic;
+      } | null)
+    | ({
+        relationTo: 'labs';
+        value: number | Lab;
+      } | null)
+    | ({
+        relationTo: 'institutions';
+        value: number | Institution;
+      } | null)
+    | ({
+        relationTo: 'bus-tables';
+        value: number | BusTable;
+      } | null)
+    | ({
+        relationTo: 'executive-committee';
+        value: number | ExecutiveCommittee;
+      } | null)
+    | ({
+        relationTo: 'objectives';
+        value: number | Objective;
+      } | null)
+    | ({
+        relationTo: 'mission';
+        value: number | Mission;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: number | Contact;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'leaders';
+        value: number | Leader;
+      } | null)
+    | ({
+        relationTo: 'exports';
+        value: number | Export;
+      } | null)
+    | ({
+        relationTo: 'payload-jobs';
+        value: number | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -184,10 +848,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -207,7 +871,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -218,6 +882,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -237,6 +902,244 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements_select".
+ */
+export interface AnnouncementsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  publishDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  publishDate?: T;
+  images?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery_select".
+ */
+export interface GallerySelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  media?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admissions_select".
+ */
+export interface AdmissionsSelect<T extends boolean = true> {
+  studentName?: T;
+  classAdmission?: T;
+  gender?: T;
+  dateOfBirth?: T;
+  ageOn31stMay?: T;
+  email?: T;
+  presentAddress?: T;
+  permanentAddress?: T;
+  fatherName?: T;
+  motherName?: T;
+  contactNo?: T;
+  schoolPreviouslyAttended?: T;
+  specialRequests?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pta_select".
+ */
+export interface PtaSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  isExecutive?: T;
+  phone?: T;
+  order?: T;
+  academicYear?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disclosure_select".
+ */
+export interface DisclosureSelect<T extends boolean = true> {
+  fileName?: T;
+  description?: T;
+  document?: T;
+  isActive?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pta-group-photo_select".
+ */
+export interface PtaGroupPhotoSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  academicYear?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "management_select".
+ */
+export interface ManagementSelect<T extends boolean = true> {
+  name?: T;
+  designation?: T;
+  order?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "academics_select".
+ */
+export interface AcademicsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  description?: T;
+  order?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nonacademics_select".
+ */
+export interface NonacademicsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  isActive?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labs_select".
+ */
+export interface LabsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  description?: T;
+  order?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions_select".
+ */
+export interface InstitutionsSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  description?: T;
+  website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bus-tables_select".
+ */
+export interface BusTablesSelect<T extends boolean = true> {
+  title?: T;
+  routeDescription?: T;
+  isActive?: T;
+  stops?:
+    | T
+    | {
+        stop?: T;
+        morning?: T;
+        evening?: T;
+        amount?: T;
+        notes?: T;
+        id?: T;
+      };
+  academicYear?: T;
+  effectiveFrom?: T;
+  effectiveTo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "executive-committee_select".
+ */
+export interface ExecutiveCommitteeSelect<T extends boolean = true> {
+  name?: T;
+  title?: T;
+  order?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "objectives_select".
+ */
+export interface ObjectivesSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mission_select".
+ */
+export interface MissionSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  studentName?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -252,6 +1155,76 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leaders_select".
+ */
+export interface LeadersSelect<T extends boolean = true> {
+  name?: T;
+  message?: T;
+  images?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exports_select".
+ */
+export interface ExportsSelect<T extends boolean = true> {
+  name?: T;
+  format?: T;
+  limit?: T;
+  page?: T;
+  sort?: T;
+  sortOrder?: T;
+  drafts?: T;
+  selectionToUse?: T;
+  fields?: T;
+  collectionSlug?: T;
+  where?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -284,6 +1257,37 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateCollectionExport".
+ */
+export interface TaskCreateCollectionExport {
+  input: {
+    name?: string | null;
+    format?: ('csv' | 'json') | null;
+    limit?: number | null;
+    page?: number | null;
+    sort?: string | null;
+    sortOrder?: ('asc' | 'desc') | null;
+    drafts?: ('yes' | 'no') | null;
+    selectionToUse?: ('currentSelection' | 'currentFilters' | 'all') | null;
+    fields?: string[] | null;
+    collectionSlug: string;
+    where?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    user?: string | null;
+    userCollection?: string | null;
+    exportsCollection?: string | null;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
