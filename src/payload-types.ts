@@ -74,6 +74,7 @@ export interface Config {
     admissions: Admission;
     pta: Pta;
     disclosure: Disclosure;
+    tc: Tc;
     'pta-group-photo': PtaGroupPhoto;
     management: Management;
     academics: Academic;
@@ -102,6 +103,7 @@ export interface Config {
     admissions: AdmissionsSelect<false> | AdmissionsSelect<true>;
     pta: PtaSelect<false> | PtaSelect<true>;
     disclosure: DisclosureSelect<false> | DisclosureSelect<true>;
+    tc: TcSelect<false> | TcSelect<true>;
     'pta-group-photo': PtaGroupPhotoSelect<false> | PtaGroupPhotoSelect<true>;
     management: ManagementSelect<false> | ManagementSelect<true>;
     academics: AcademicsSelect<false> | AcademicsSelect<true>;
@@ -315,6 +317,31 @@ export interface Disclosure {
    * Lower numbers appear first
    */
   order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tc".
+ */
+export interface Tc {
+  id: number;
+  /**
+   * Title for this TC certificate (e.g., "TC Certificate Format 2024")
+   */
+  title: string;
+  /**
+   * Description of what this TC certificate is for
+   */
+  description?: string | null;
+  /**
+   * Upload the TC certificate PDF file
+   */
+  file: number | Media;
+  /**
+   * Show this TC certificate on the website
+   */
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -776,6 +803,10 @@ export interface PayloadLockedDocument {
         value: number | Disclosure;
       } | null)
     | ({
+        relationTo: 'tc';
+        value: number | Tc;
+      } | null)
+    | ({
         relationTo: 'pta-group-photo';
         value: number | PtaGroupPhoto;
       } | null)
@@ -979,6 +1010,18 @@ export interface DisclosureSelect<T extends boolean = true> {
   document?: T;
   isActive?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tc_select".
+ */
+export interface TcSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  file?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -23,6 +23,8 @@ import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import PTAGroupPhoto from "./collections/PTAGroupPhoto";
 import Objective from "./collections/Objective";
 import Mission from "./collections/Mission";
+import TC from "./collections/TC";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +53,7 @@ export default buildConfig({
     Admissions,
     PTA,
     Disclosure,
+    TC,
     PTAGroupPhoto,
     Management,
     Academics,
