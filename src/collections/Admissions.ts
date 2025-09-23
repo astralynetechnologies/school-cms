@@ -8,8 +8,7 @@ const Admissions: CollectionConfig = {
   },
   access: {
     create: () => true,
-    // read: ({ req }) => !!req.user,
-    read: () => true,
+    read: ({ req }) => !!req.user,
     update: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
   },
