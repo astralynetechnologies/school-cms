@@ -13,6 +13,7 @@ import Admissions from "./collections/Admissions";
 import Contacts from "./collections/Contacts";
 import { Events } from "./collections/Events";
 import Management from "./collections/Management";
+import { Images } from "./collections/Images";
 import BusTables from "./collections/BusTables";
 import ExecutiveCommittee from "./collections/ExecutiveCommittee";
 import PTA from "./collections/PTA";
@@ -35,14 +36,16 @@ export default buildConfig({
     user: Users.slug,
   },
   cors: [
-    "http://localhost:3000", // CMS itself
-    "http://localhost:3001", // Next.js frontend (adjust if different)
+    "http://168.231.103.26:3000", // CMS itself
+    "http://localhost:3000",
+    "http://localhost:3001", // Vite dev server
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001"
   ],
   csrf: [
+    "http://168.231.103.26:3000",
     "http://localhost:3000",
-    "http://localhost:3001"
+    "http://localhost:3001",
   ],
 
   collections: [
@@ -58,6 +61,7 @@ export default buildConfig({
     Management,
     Academics,
     NonAcademics,
+    Images,
     Labs,
     Institution,
     BusTables,
@@ -86,5 +90,5 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || "postgres://username:password@localhost:5432/schoolcms",
     },
   }),
-  secret: process.env.PAYLOAD_SECRET || "super-secret-key",
-});
+  secret: process.env.PAYLOAD_SECRET || "super-secret-key"
+}); // <- Added missing closing parenthesis and semicolon

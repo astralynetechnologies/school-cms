@@ -79,6 +79,7 @@ export interface Config {
     management: Management;
     academics: Academic;
     nonacademics: Nonacademic;
+    image: Image;
     labs: Lab;
     institutions: Institution;
     'bus-tables': BusTable;
@@ -108,6 +109,7 @@ export interface Config {
     management: ManagementSelect<false> | ManagementSelect<true>;
     academics: AcademicsSelect<false> | AcademicsSelect<true>;
     nonacademics: NonacademicsSelect<false> | NonacademicsSelect<true>;
+    image: ImageSelect<false> | ImageSelect<true>;
     labs: LabsSelect<false> | LabsSelect<true>;
     institutions: InstitutionsSelect<false> | InstitutionsSelect<true>;
     'bus-tables': BusTablesSelect<false> | BusTablesSelect<true>;
@@ -427,6 +429,16 @@ export interface Nonacademic {
    * Order in which this activity appears on the page (lower numbers appear first).
    */
   sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image".
+ */
+export interface Image {
+  id: number;
+  photo: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -823,6 +835,10 @@ export interface PayloadLockedDocument {
         value: number | Nonacademic;
       } | null)
     | ({
+        relationTo: 'image';
+        value: number | Image;
+      } | null)
+    | ({
         relationTo: 'labs';
         value: number | Lab;
       } | null)
@@ -1071,6 +1087,15 @@ export interface NonacademicsSelect<T extends boolean = true> {
   description?: T;
   isActive?: T;
   sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image_select".
+ */
+export interface ImageSelect<T extends boolean = true> {
+  photo?: T;
   updatedAt?: T;
   createdAt?: T;
 }
