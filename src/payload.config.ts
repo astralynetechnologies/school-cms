@@ -25,6 +25,7 @@ import PTAGroupPhoto from "./collections/PTAGroupPhoto";
 import Objective from "./collections/Objective";
 import Mission from "./collections/Mission";
 import TC from "./collections/TC";
+import {Achievements} from "./collections/Achievements";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,39 +39,45 @@ export default buildConfig({
   cors: [
     "http://168.231.103.26:3000", // CMS itself
     "http://localhost:3000",
-    "http://localhost:3001", // Vite dev server
+    "http://localhost:3001",
+    "https://www.sbcs.edu.in", // Frontend application
     "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001"
+    "http://127.0.0.1:3001",
+    "https://admin.sbcs.edu.in" // Production admin URL
   ],
   csrf: [
     "http://168.231.103.26:3000",
     "http://localhost:3000",
     "http://localhost:3001",
+    "https://www.sbcs.edu.in",
+    "http://localhost:3001",
+    "https://admin.sbcs.edu.in" // Production admin URL
   ],
 
   collections: [
     Users,
-    Announcements,
-    Events,
-    Gallery,
-    Admissions,
-    PTA,
-    Disclosure,
-    TC,
-    PTAGroupPhoto,
+    Objective,
     Management,
+    ExecutiveCommittee,
+    Institution,
+    Leaders,
+    Mission,
+    PTA,
+    PTAGroupPhoto,
     Academics,
     NonAcademics,
-    Images,
     Labs,
-    Institution,
-    BusTables,
-    ExecutiveCommittee,
-    Objective,
-    Mission,
-    Contacts,
+    TC,
+    Disclosure,
+    Gallery,
+    Achievements,
+    Images,
     Media,
-    Leaders,
+    Events,
+    Announcements,
+    BusTables,
+    Admissions,
+    Contacts,
   ],
   
   // Add the import-export plugin with additional config to help with compatibility
