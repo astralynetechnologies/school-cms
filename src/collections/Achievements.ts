@@ -14,8 +14,7 @@ export const Achievements: CollectionConfig = {
     // 👇 Allow anyone (even unauthenticated users) to read announcements
     read: () => true,
     // Keep writing restricted (so only admins can add/edit)
-    // create: ({ req }) => !!req.user,
-    create: () => true,
+    create: ({ req }) => !!req.user,
     update: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
   },
