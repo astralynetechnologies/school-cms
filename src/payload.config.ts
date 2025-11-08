@@ -26,6 +26,15 @@ import Objective from "./collections/Objective";
 import Mission from "./collections/Mission";
 import TC from "./collections/TC";
 import {Achievements} from "./collections/Achievements";
+import Primary from "./collections/Primary";
+import { Sports } from "./collections/Sports";
+import { Playground } from "./collections/Playground";
+import { Conferencehall } from "./collections/Conferencehall";
+import { Auditorium } from "./collections/Auditorium";
+import { Atl } from "./collections/Atl";
+import { Library } from "./collections/Library";
+import { Smartclass } from "./collections/Smartclass";
+import { Event } from "./collections/Event";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -78,6 +87,15 @@ export default buildConfig({
     BusTables,
     Admissions,
     Contacts,
+    Primary,
+    Sports,
+    Playground,
+    Conferencehall,
+    Auditorium,
+    Atl,
+    Library,
+    Smartclass,
+    Event,
   ],
   
   // Add the import-export plugin with additional config to help with compatibility

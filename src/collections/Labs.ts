@@ -16,7 +16,7 @@ const Labs: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'updatedAt'],
     description: 'Manage lab facilities and labs showcased on the website',
-    group:'Curriculum',
+    group:'Facilities',
   },
   fields: [
     {

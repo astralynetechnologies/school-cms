@@ -90,6 +90,15 @@ export interface Config {
     'bus-tables': BusTable;
     admissions: Admission;
     contacts: Contact;
+    primary: Primary;
+    sports: Sport;
+    playground: Playground;
+    conferencehall: Conferencehall;
+    auditorium: Auditorium;
+    atl: Atl;
+    library: Library;
+    smartclass: Smartclass;
+    event: Event1;
     exports: Export;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -121,6 +130,15 @@ export interface Config {
     'bus-tables': BusTablesSelect<false> | BusTablesSelect<true>;
     admissions: AdmissionsSelect<false> | AdmissionsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
+    primary: PrimarySelect<false> | PrimarySelect<true>;
+    sports: SportsSelect<false> | SportsSelect<true>;
+    playground: PlaygroundSelect<false> | PlaygroundSelect<true>;
+    conferencehall: ConferencehallSelect<false> | ConferencehallSelect<true>;
+    auditorium: AuditoriumSelect<false> | AuditoriumSelect<true>;
+    atl: AtlSelect<false> | AtlSelect<true>;
+    library: LibrarySelect<false> | LibrarySelect<true>;
+    smartclass: SmartclassSelect<false> | SmartclassSelect<true>;
+    event: EventSelect<false> | EventSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -666,6 +684,252 @@ export interface Contact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "primary".
+ */
+export interface Primary {
+  id: number;
+  /**
+   * The main heading for the Pre primary section
+   */
+  title: string;
+  /**
+   * The subtitle text below the main heading
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the objectives section
+   */
+  image: number | Media;
+  /**
+   * Add multiple paragraphs of content for the Pre Primary section
+   */
+  content?:
+    | {
+        /**
+         * Add a paragraph of content
+         */
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sports".
+ */
+export interface Sport {
+  id: number;
+  /**
+   * Title of the sports page
+   */
+  title: string;
+  /**
+   * Upload an image for the sports section
+   */
+  image: number | Media;
+  /**
+   * Add multiple paragraphs of content for the Pre Primary section
+   */
+  content?:
+    | {
+        /**
+         * Add a paragraph of content
+         */
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "playground".
+ */
+export interface Playground {
+  id: number;
+  /**
+   * The main heading for the Playground section
+   */
+  title: string;
+  /**
+   * The subtitle text below the main heading
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the Playground section
+   */
+  image: number | Media;
+  /**
+   * Describe the Playground area, its features, and benefits to students...
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "conferencehall".
+ */
+export interface Conferencehall {
+  id: number;
+  /**
+   * Title of the conference hall page
+   */
+  title: string;
+  /**
+   * Subtitle for the conference hall section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the conference hall section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the conference hall facilities
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auditorium".
+ */
+export interface Auditorium {
+  id: number;
+  /**
+   * Title of the auditorium page
+   */
+  title: string;
+  /**
+   * Subtitle for the auditorium section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the auditorium section
+   */
+  image: number | Media;
+  /**
+   * Seating capacity of the auditorium
+   */
+  'seating capacity': number;
+  /**
+   * Detailed description of the auditorium facilities
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "atl".
+ */
+export interface Atl {
+  id: number;
+  /**
+   * Title of the ATL page
+   */
+  title: string;
+  /**
+   * Subtitle for the ATL section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the ATL section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the ATL facilities
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "library".
+ */
+export interface Library {
+  id: number;
+  /**
+   * Title of the library page
+   */
+  title: string;
+  /**
+   * Subtitle for the library section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the library section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the library facilities
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "smartclass".
+ */
+export interface Smartclass {
+  id: number;
+  /**
+   * Title of the smart class page
+   */
+  title: string;
+  /**
+   * Subtitle for the smart class section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the smart class section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the smart class facilities
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event".
+ */
+export interface Event1 {
+  id: number;
+  /**
+   * Title of the event
+   */
+  title: string;
+  /**
+   * Date of the event
+   */
+  date: string;
+  year: number;
+  /**
+   * Category of the event
+   */
+  category: 'Sports' | 'Cultural' | 'Academic' | 'Other';
+  /**
+   * Detailed description of the event
+   */
+  description: string;
+  /**
+   * Upload an image for the event (optional)
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -891,6 +1155,42 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contacts';
         value: number | Contact;
+      } | null)
+    | ({
+        relationTo: 'primary';
+        value: number | Primary;
+      } | null)
+    | ({
+        relationTo: 'sports';
+        value: number | Sport;
+      } | null)
+    | ({
+        relationTo: 'playground';
+        value: number | Playground;
+      } | null)
+    | ({
+        relationTo: 'conferencehall';
+        value: number | Conferencehall;
+      } | null)
+    | ({
+        relationTo: 'auditorium';
+        value: number | Auditorium;
+      } | null)
+    | ({
+        relationTo: 'atl';
+        value: number | Atl;
+      } | null)
+    | ({
+        relationTo: 'library';
+        value: number | Library;
+      } | null)
+    | ({
+        relationTo: 'smartclass';
+        value: number | Smartclass;
+      } | null)
+    | ({
+        relationTo: 'event';
+        value: number | Event1;
       } | null)
     | ({
         relationTo: 'exports';
@@ -1261,6 +1561,126 @@ export interface ContactsSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "primary_select".
+ */
+export interface PrimarySelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sports_select".
+ */
+export interface SportsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  content?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "playground_select".
+ */
+export interface PlaygroundSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "conferencehall_select".
+ */
+export interface ConferencehallSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auditorium_select".
+ */
+export interface AuditoriumSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  'seating capacity'?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "atl_select".
+ */
+export interface AtlSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "library_select".
+ */
+export interface LibrarySelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "smartclass_select".
+ */
+export interface SmartclassSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event_select".
+ */
+export interface EventSelect<T extends boolean = true> {
+  title?: T;
+  date?: T;
+  year?: T;
+  category?: T;
+  description?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }
