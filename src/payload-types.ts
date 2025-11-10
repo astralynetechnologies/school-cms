@@ -98,7 +98,12 @@ export interface Config {
     atl: Atl;
     library: Library;
     smartclass: Smartclass;
-    event: Event1;
+    preprimary: Preprimary;
+    secondary: Secondary;
+    'senior-secondary': SeniorSecondary;
+    'year-plan-and-calender': YearPlanAndCalender;
+    result: Result;
+    clubs: Club;
     exports: Export;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -138,7 +143,12 @@ export interface Config {
     atl: AtlSelect<false> | AtlSelect<true>;
     library: LibrarySelect<false> | LibrarySelect<true>;
     smartclass: SmartclassSelect<false> | SmartclassSelect<true>;
-    event: EventSelect<false> | EventSelect<true>;
+    preprimary: PreprimarySelect<false> | PreprimarySelect<true>;
+    secondary: SecondarySelect<false> | SecondarySelect<true>;
+    'senior-secondary': SeniorSecondarySelect<false> | SeniorSecondarySelect<true>;
+    'year-plan-and-calender': YearPlanAndCalenderSelect<false> | YearPlanAndCalenderSelect<true>;
+    result: ResultSelect<false> | ResultSelect<true>;
+    clubs: ClubsSelect<false> | ClubsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -567,9 +577,22 @@ export interface Image {
  */
 export interface Event {
   id: number;
+  /**
+   * Title of the event
+   */
   title: string;
+  /**
+   * description of the event
+   */
   content: string;
+  /**
+   * Category of the event (e.g., Sports, Cultural, Academic)
+   */
+  category: 'Sports' | 'Cultural' | 'Academic' | 'Other';
   publishDate?: string | null;
+  /**
+   * Upload images related to the event
+   */
   images?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -900,31 +923,139 @@ export interface Smartclass {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event".
+ * via the `definition` "preprimary".
  */
-export interface Event1 {
+export interface Preprimary {
   id: number;
   /**
-   * Title of the event
+   * Title of the preprimary page
    */
   title: string;
   /**
-   * Date of the event
+   * Subtitle for the preprimary section
    */
-  date: string;
-  year: number;
+  subtitle: string;
   /**
-   * Category of the event
+   * Upload an image for the preprimary section
    */
-  category: 'Sports' | 'Cultural' | 'Academic' | 'Other';
+  image: number | Media;
   /**
-   * Detailed description of the event
+   * Detailed description of the preprimary curriculum
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "secondary".
+ */
+export interface Secondary {
+  id: number;
+  /**
+   * Title of the secondary page
+   */
+  title: string;
+  /**
+   * Subtitle for the secondary section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the secondary section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the secondary curriculum
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "senior-secondary".
+ */
+export interface SeniorSecondary {
+  id: number;
+  /**
+   * Title of the senior secondary page
+   */
+  title: string;
+  /**
+   * Subtitle for the senior secondary section
+   */
+  subtitle: string;
+  /**
+   * Upload an image for the senior secondary section
+   */
+  image: number | Media;
+  /**
+   * Detailed description of the senior secondary curriculum
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "year-plan-and-calender".
+ */
+export interface YearPlanAndCalender {
+  id: number;
+  /**
+   * Title of the year plan and calender page
+   */
+  title: string;
+  /**
+   * Description for the year plan and calender section
    */
   description: string;
   /**
-   * Upload an image for the event (optional)
+   * Upload the year plan and calender document
    */
-  image?: (number | null) | Media;
+  document: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "result".
+ */
+export interface Result {
+  id: number;
+  /**
+   * Title of the result page
+   */
+  title: string;
+  /**
+   * Description for the result section
+   */
+  description: string;
+  /**
+   * Upload the result document
+   */
+  document: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clubs".
+ */
+export interface Club {
+  id: number;
+  /**
+   * Title of the club
+   */
+  title: string;
+  /**
+   * Description of the club activities
+   */
+  description: string;
+  /**
+   * Upload an image representing the club
+   */
+  image: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -1189,8 +1320,28 @@ export interface PayloadLockedDocument {
         value: number | Smartclass;
       } | null)
     | ({
-        relationTo: 'event';
-        value: number | Event1;
+        relationTo: 'preprimary';
+        value: number | Preprimary;
+      } | null)
+    | ({
+        relationTo: 'secondary';
+        value: number | Secondary;
+      } | null)
+    | ({
+        relationTo: 'senior-secondary';
+        value: number | SeniorSecondary;
+      } | null)
+    | ({
+        relationTo: 'year-plan-and-calender';
+        value: number | YearPlanAndCalender;
+      } | null)
+    | ({
+        relationTo: 'result';
+        value: number | Result;
+      } | null)
+    | ({
+        relationTo: 'clubs';
+        value: number | Club;
       } | null)
     | ({
         relationTo: 'exports';
@@ -1491,6 +1642,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  category?: T;
   publishDate?: T;
   images?: T;
   updatedAt?: T;
@@ -1672,13 +1824,68 @@ export interface SmartclassSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "event_select".
+ * via the `definition` "preprimary_select".
  */
-export interface EventSelect<T extends boolean = true> {
+export interface PreprimarySelect<T extends boolean = true> {
   title?: T;
-  date?: T;
-  year?: T;
-  category?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "secondary_select".
+ */
+export interface SecondarySelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "senior-secondary_select".
+ */
+export interface SeniorSecondarySelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "year-plan-and-calender_select".
+ */
+export interface YearPlanAndCalenderSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  document?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "result_select".
+ */
+export interface ResultSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  document?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clubs_select".
+ */
+export interface ClubsSelect<T extends boolean = true> {
+  title?: T;
   description?: T;
   image?: T;
   updatedAt?: T;

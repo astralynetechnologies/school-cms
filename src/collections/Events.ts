@@ -15,9 +15,43 @@ export const Events: CollectionConfig = {
     delete: ({ req }) => !!req.user,
   },
   fields: [
-    { name: "title", type: "text", required: true },
-    { name: "content", type: "textarea", required: true },
-    { name: "publishDate", type: "date", admin: { date: {displayFormat: 'dd-MM-yyyy'}}}, 
-    {name: "images", type: "upload", relationTo : "media"},
+    { 
+      name: "title",
+      type: "text",
+      required: true,
+      admin: {
+        description: "Title of the event",
+      },
+    },
+    { 
+      name: "content", 
+      type: "textarea", 
+      required: true,
+      admin: {
+        description: "description of the event",
+      },
+    },
+    { 
+      name: "category",
+      type: "select", 
+      required: true,
+      options: ["Sports", "Cultural", "Academic", "Other"],
+      admin: {
+        description: "Category of the event (e.g., Sports, Cultural, Academic)",
+      },
+    },
+    { 
+      name: "publishDate", 
+      type: "date", 
+      admin: { date: {displayFormat: 'dd-MM-yyyy'}}
+    }, 
+    {
+      name: "images", 
+      type: "upload", 
+      relationTo : "media",
+      admin: {
+        description: "Upload images related to the event",
+      },
+    },
   ],
 };
