@@ -40,6 +40,7 @@ import { SeniorSecondary } from "./collections/SeniorSecondary";
 import { YearPlanandCalender } from "./collections/YearPlanandCalender";
 import { Result } from "./collections/Result";
 import { Clubs } from "./collections/Clubs";
+import { Department } from "./collections/Department";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -105,7 +106,8 @@ export default buildConfig({
     SeniorSecondary,
     YearPlanandCalender,   
     Result,
-    Clubs
+    Clubs,
+    Department
   ],
   
   // Add the import-export plugin with additional config to help with compatibility

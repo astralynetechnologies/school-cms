@@ -104,6 +104,7 @@ export interface Config {
     'year-plan-and-calender': YearPlanAndCalender;
     result: Result;
     clubs: Club;
+    departments: Department;
     exports: Export;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -149,6 +150,7 @@ export interface Config {
     'year-plan-and-calender': YearPlanAndCalenderSelect<false> | YearPlanAndCalenderSelect<true>;
     result: ResultSelect<false> | ResultSelect<true>;
     clubs: ClubsSelect<false> | ClubsSelect<true>;
+    departments: DepartmentsSelect<false> | DepartmentsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -1061,6 +1063,60 @@ export interface Club {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments".
+ */
+export interface Department {
+  id: number;
+  /**
+   * Name of the department
+   */
+  name: string;
+  /**
+   * Icon class for the department (e.g., FontAwesome class)
+   */
+  icon?: string | null;
+  /**
+   * Upload an image representing the department
+   */
+  image: number | Media;
+  /**
+   * Description of the department
+   */
+  description: string;
+  /**
+   * Total number of faculty members in the department
+   */
+  'No of Faculty': number;
+  staff?:
+    | {
+        /**
+         * Name of the faculty member
+         */
+        Name: string;
+        /**
+         * Position or title of the faculty member
+         */
+        Position: string;
+        /**
+         * Upload a photo of the faculty member
+         */
+        Photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Upload images of faculty members
+   */
+  'staff image'?: (number | null) | Media;
+  /**
+   * Display order of the department
+   */
+  displayOrder: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -1342,6 +1398,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'clubs';
         value: number | Club;
+      } | null)
+    | ({
+        relationTo: 'departments';
+        value: number | Department;
       } | null)
     | ({
         relationTo: 'exports';
@@ -1888,6 +1948,29 @@ export interface ClubsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "departments_select".
+ */
+export interface DepartmentsSelect<T extends boolean = true> {
+  name?: T;
+  icon?: T;
+  image?: T;
+  description?: T;
+  'No of Faculty'?: T;
+  staff?:
+    | T
+    | {
+        Name?: T;
+        Position?: T;
+        Photo?: T;
+        id?: T;
+      };
+  'staff image'?: T;
+  displayOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
